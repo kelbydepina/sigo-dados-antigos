@@ -5,6 +5,8 @@ import java.util.Date;
 
 public class SgoOcorrenciaDto {
 
+    private Long idTpOcorrencia; // oracle_id do tipo ocorrência
+
     private String numOcorrencia;
 
     private String data;
@@ -16,8 +18,6 @@ public class SgoOcorrenciaDto {
     private String coordenada;
 
     private String observacao;
-
-    private Long idTpOcorrencia;
 
     private Long idAgente;
 
@@ -131,6 +131,24 @@ public class SgoOcorrenciaDto {
 
     private String mgid;
 
+    private Long oracleId;
+
+    public Long getIdTpOcorrencia() {
+        return idTpOcorrencia;
+    }
+
+    public void setIdTpOcorrencia(Long idTpOcorrencia) {
+        this.idTpOcorrencia = idTpOcorrencia;
+    }
+
+    public Long getOracleId() {
+        return oracleId;
+    }
+
+    public void setOracleId(Long oracleId) {
+        this.oracleId = oracleId;
+    }
+
     public String getNumOcorrencia() {
         return numOcorrencia;
     }
@@ -177,14 +195,6 @@ public class SgoOcorrenciaDto {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
-    }
-
-    public Long getIdTpOcorrencia() {
-        return idTpOcorrencia;
-    }
-
-    public void setIdTpOcorrencia(Long idTpOcorrencia) {
-        this.idTpOcorrencia = idTpOcorrencia;
     }
 
     public Long getIdAgente() {

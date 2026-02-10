@@ -1,15 +1,21 @@
 package cv.pn.processmanagement.business.sigoPessoa.model;
 
-import cv.pn.processmanagement.commons.CommonsAttributes;
 
 import javax.persistence.*;
 import java.util.Date;
 
 
+
 @Entity
 @Table(name = "sigo_pessoa")
-public class SigoPessoa extends CommonsAttributes {
+public class SigoPessoa{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Column(name = "ID", nullable = false)
+    private Long id; // ID NUMÉRICO DO ORACLE (BIGINT)
+    @Column(name = "ORACLE_ID")
+    private Long oracleId;
     @Column(name = "NOME")
     private String nome;
     @Column(name = "NUM")
@@ -74,6 +80,26 @@ public class SigoPessoa extends CommonsAttributes {
     private String email;
     @Column(name = "MG_ID")
     private String mgid;
+
+   // @Column(name = "ID_PESSOA")
+  //  private Long idPessoa;
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getOracleId() {
+        return oracleId;
+    }
+
+    public void setOracleId(Long oracleId) {
+        this.oracleId = oracleId;
+    }
 
     public String getNome() {
         return nome;
@@ -298,4 +324,6 @@ public class SigoPessoa extends CommonsAttributes {
     public void setMgid(String mgid) {
         this.mgid = mgid;
     }
+
+
 }

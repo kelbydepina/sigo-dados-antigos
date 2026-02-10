@@ -170,6 +170,18 @@
 	</build>
 	<profiles>
 		<profile>
+			<id>local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<spring.profiles.active>local</spring.profiles.active>
+			</properties>
+			<dependencies>
+				<!-- Dependências específicas para o perfil dev -->
+			</dependencies>
+		</profile>
+		<profile>
 			<id>dev</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>

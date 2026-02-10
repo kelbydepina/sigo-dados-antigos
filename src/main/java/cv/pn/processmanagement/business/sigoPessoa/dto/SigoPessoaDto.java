@@ -2,9 +2,13 @@ package cv.pn.processmanagement.business.sigoPessoa.dto;
 
 import java.util.Date;
 
+
 public class SigoPessoaDto {
 
-    private String id;
+    private Long id; //
+    // ID original vindo do Oracle
+    private Long oracleId;
+    //private String id;
     private String nome;
     private String num;
     private String pai;
@@ -41,12 +45,20 @@ public class SigoPessoaDto {
         this.mgid = mgid;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getOracleId() {
+        return oracleId;
+    }
+
+    public void setOracleId(Long oracleId) {
+        this.oracleId = oracleId;
     }
 
     public String getNome() {

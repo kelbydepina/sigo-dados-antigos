@@ -11,6 +11,9 @@ import javax.persistence.Table;
 
 public class Esquadra extends CommonsAttributes {
 
+    @Column(name = "oracle_id" , unique = true)
+    private Long oracleId;
+
     @Column(name = "NOME")
     private String nome;
     @Column(name = "COMADANTE")
@@ -63,6 +66,14 @@ public class Esquadra extends CommonsAttributes {
     private String emailNotificacao1;
     @Column(name = "EMAIL_NOTIFICACAO2")
     private String emailNotificacao2;
+
+    public Long getOracleId() {
+        return oracleId;
+    }
+
+    public void setOracleId(Long oracleId) {
+        this.oracleId = oracleId;
+    }
 
     public String getEmailNotificacao2() {
         return emailNotificacao2;

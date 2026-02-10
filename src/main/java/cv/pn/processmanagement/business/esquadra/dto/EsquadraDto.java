@@ -2,7 +2,7 @@ package cv.pn.processmanagement.business.esquadra.dto;
 
 public class EsquadraDto {
 
-    private String id;
+    private Long oracleId;
     private String nome;
     private String comandante;
     private String localizacao;
@@ -30,12 +30,12 @@ public class EsquadraDto {
     private String emailNotificacao1;
     private String emailNotificacao2;
 
-    public String getId() {
-        return id;
+    public Long getOracleId() {
+        return oracleId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setOracleId(Long oracleId) {
+        this.oracleId = oracleId;
     }
 
     public String getNome() {

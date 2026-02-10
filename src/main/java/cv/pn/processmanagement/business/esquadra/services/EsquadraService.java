@@ -25,6 +25,9 @@ public class EsquadraService implements IEsquadraService {
 
         try {
             Esquadra e = new Esquadra();
+            e.setId(null);       // ID do Postgres
+// NÃO mexer no oracleId
+
             BeanUtils.copyProperties(dto, e);
             e.setUserCreate("ADMIN");
             repository.save(e);

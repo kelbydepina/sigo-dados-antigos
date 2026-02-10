@@ -1,5 +1,7 @@
 package cv.pn.processmanagement.business.ocorrencia.model;
 
+import cv.pn.processmanagement.business.esquadra.model.Esquadra;
+import cv.pn.processmanagement.business.sigoOcorrencia.model.SgoTpOcorrencia;
 import cv.pn.processmanagement.commons.CommonsAttributes;
 
 import javax.persistence.*;
@@ -29,8 +31,13 @@ public class SgoOcorrencia extends CommonsAttributes {
     @Column(name = "OBSERVACAO")
     private String observacao;
 
-    @Column(name = "ID_TP_OCORRENCIA")
-    private Long idTpOcorrencia;
+   /* @Column(name = "ID_TP_OCORRENCIA")
+    private Long idTpOcorrencia;*/
+
+    @ManyToOne
+    @JoinColumn(name = "id_tp_ocorrencia", referencedColumnName = "oracle_id")
+    private SgoTpOcorrencia tipoOcorrencia;
+
 
     @Column(name = "ID_AGENTE")
     private Long idAgente;
@@ -51,13 +58,17 @@ public class SgoOcorrencia extends CommonsAttributes {
     @Column(name = "TP_AUTO")
     private String tpAuto;
 
-    @Column(name = "ID_ESQUADRA")
-    private Long idEsquadra;
+   /* @Column(name = "ID_ESQUADRA")
+    private Long idEsquadra;*/
+
+    @ManyToOne
+    @JoinColumn(name = "id_esquadra", referencedColumnName = "oracle_id")
+    private Esquadra esquadra;
 
     @Column(name = "CONTROL")
     private String control;
 
-    @Column(name = "MOTIVO")
+    @Column(name = "MOTIVO", columnDefinition = "TEXT")
     private String motivo;
 
     @Column(name = "CONTADOR")
@@ -203,6 +214,25 @@ public class SgoOcorrencia extends CommonsAttributes {
     @Column(name = "MGID")
     private String mgid;
 
+    @Column(name = "oracle_id")
+    private Long oracleId;
+
+    public Long getOracleId() {
+        return oracleId;
+    }
+
+    public void setOracleId(Long oracleId) {
+        this.oracleId = oracleId;
+    }
+
+    public SgoTpOcorrencia getTipoOcorrencia() {
+        return tipoOcorrencia;
+    }
+
+    public void setTipoOcorrencia(SgoTpOcorrencia tipoOcorrencia) {
+        this.tipoOcorrencia = tipoOcorrencia;
+    }
+
     public String getNumOcorrencia() {
         return numOcorrencia;
     }
@@ -251,13 +281,7 @@ public class SgoOcorrencia extends CommonsAttributes {
         this.observacao = observacao;
     }
 
-    public Long getIdTpOcorrencia() {
-        return idTpOcorrencia;
-    }
 
-    public void setIdTpOcorrencia(Long idTpOcorrencia) {
-        this.idTpOcorrencia = idTpOcorrencia;
-    }
 
     public Long getIdAgente() {
         return idAgente;
@@ -307,12 +331,12 @@ public class SgoOcorrencia extends CommonsAttributes {
         this.tpAuto = tpAuto;
     }
 
-    public Long getIdEsquadra() {
-        return idEsquadra;
+    public Esquadra getEsquadra() {
+        return esquadra;
     }
 
-    public void setIdEsquadra(Long idEsquadra) {
-        this.idEsquadra = idEsquadra;
+    public void setEsquadra(Esquadra esquadra) {
+        this.esquadra = esquadra;
     }
 
     public String getControl() {

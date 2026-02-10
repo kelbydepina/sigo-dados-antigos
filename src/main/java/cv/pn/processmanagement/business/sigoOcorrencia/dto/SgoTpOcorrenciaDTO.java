@@ -2,7 +2,7 @@ package cv.pn.processmanagement.business.sigoOcorrencia.dto;
 
 public class SgoTpOcorrenciaDTO {
 
-
+    private Long oracleId;
     private String nome;
     private String descricao;
     private String naturesaCrime;
@@ -18,7 +18,13 @@ public class SgoTpOcorrenciaDTO {
     private String def;
     private String enquadramento;
 
+    public Long getOracleId() {
+        return oracleId;
+    }
 
+    public void setOracleId(Long oracleId) {
+        this.oracleId = oracleId;
+    }
 
     public String getNome() {
         return nome;

@@ -8,6 +8,7 @@ import cv.pn.processmanagement.utilities.APIResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 
 @Service
@@ -23,12 +24,23 @@ public class TipoCrimeTipoOcorrenciaService implements ITipoCrimeTipoOcorrenciaS
     public APIResponse createTipoCrime(TipoCrimeTipoOcorrenciaDto dto) {
 
         try {
+            System.out.println("DTO RECEBIDO:");
             TipoCrimeTipoOcorrencia entity = new TipoCrimeTipoOcorrencia();
-            BeanUtils.copyProperties(dto, entity);
-            entity.setUserCreate("ADMIN");
+            //BeanUtils.copyProperties(dto, entity);
+            entity.setId(dto.getId());  // ID do Oracle
+            entity.setIdTipoCrime(dto.getIdTipoCrime());
+            entity.setIdTpOcorrencia(dto.getIdTpOcorrencia());
+           // entity.setUserCreate("ADMIN");
+            entity.setUserCreate("MIGRACAO_ORACLE");
+            entity.setDateCreate(LocalDateTime.now());
+            entity.setActive(true);
 
+
+            System.out.println("DTO idTipoCrime = " + dto.getIdTipoCrime());
+            System.out.println("DTO idTpOcorrencia = " + dto.getIdTpOcorrencia());
             tipoCrimeTipoOcorrenciaRepository.save(entity);
 
+            System.out.println("ENTITY APÓS SAVE:");
             return new APIResponse.buildAPIResponse()
                     .setStatus(true)
                     .setStatusText("TipoCrimeTipoOcorrencia criada com sucesso")

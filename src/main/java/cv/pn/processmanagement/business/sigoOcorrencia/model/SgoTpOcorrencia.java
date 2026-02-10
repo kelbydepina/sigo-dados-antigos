@@ -11,6 +11,9 @@ import javax.persistence.Table;
 @Table(name = "sgo_tp_ocorrencia")
 public class SgoTpOcorrencia extends CommonsAttributes {
 
+    @Column(name = "oracle_id", unique = true)
+    private Long oracleId;
+
     @Column(name = "NOME")
     private String nome;
 
@@ -52,6 +55,14 @@ public class SgoTpOcorrencia extends CommonsAttributes {
 
     @Column(name = "ENQUADRAMENTO")
     private String enquadramento;
+
+    public Long getOracleId() {
+        return oracleId;
+    }
+
+    public void setOracleId(Long oracleId) {
+        this.oracleId = oracleId;
+    }
 
     public String getNome() {
         return nome;

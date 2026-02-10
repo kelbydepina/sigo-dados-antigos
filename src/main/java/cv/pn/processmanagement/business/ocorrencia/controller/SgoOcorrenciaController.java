@@ -26,5 +26,14 @@ public class SgoOcorrenciaController {
         return ResponseEntity.ok(iSgoOcorrenciaService.createOcorrencia(dto));
     }
 
+    @GetMapping("/motivo")
+    public ResponseEntity<?> motivo(
+            @RequestParam  String num) {
+
+        return ResponseEntity.ok(
+                iSgoOcorrenciaService.consultarMotivo(num)
+        );
+    }
+
 
 }

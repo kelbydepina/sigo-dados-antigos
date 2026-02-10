@@ -1,6 +1,12 @@
 package cv.pn.processmanagement.business.ocorrencia.services;
 
-import com.google.gson.Gson;
+import cv.pn.processmanagement.business.esquadra.model.Esquadra;
+import cv.pn.processmanagement.business.esquadra.repository.EsquadraRepository;
+import cv.pn.processmanagement.business.projection.OcorrenciaMotivoProjection;
+import cv.pn.processmanagement.business.sigoOcorrencia.model.SgoTpOcorrencia;
+import cv.pn.processmanagement.business.sigoOcorrencia.repository.SgoTpOcorrenciaRepository;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Propagation;
 import cv.pn.processmanagement.business.ocorrencia.dto.SgoOcorrenciaDto;
 import cv.pn.processmanagement.business.ocorrencia.model.SgoOcorrencia;
 import cv.pn.processmanagement.business.ocorrencia.repository.SgoOcorrenciaRepository;
@@ -10,8 +16,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Service
@@ -19,14 +26,20 @@ public class SgoOcorrenciaService implements ISgoOcorrenciaService{
 
     private final SgoOcorrenciaRepository sgoOcorrenciaRepository;
 
+    private final EsquadraRepository esquadraRepository;
+
+    private final SgoTpOcorrenciaRepository sgoTpOcorrenciaRepository;
+
     private final JdbcTemplate jdbcTemplate;
 
-    public SgoOcorrenciaService(SgoOcorrenciaRepository sgoOcorrenciaRepository, JdbcTemplate jdbcTemplate) {
+    public SgoOcorrenciaService(SgoOcorrenciaRepository sgoOcorrenciaRepository, EsquadraRepository esquadraRepository, SgoTpOcorrenciaRepository sgoTpOcorrenciaRepository, JdbcTemplate jdbcTemplate) {
         this.sgoOcorrenciaRepository = sgoOcorrenciaRepository;
+        this.esquadraRepository = esquadraRepository;
+        this.sgoTpOcorrenciaRepository = sgoTpOcorrenciaRepository;
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public APIResponse createOcorrencia(SgoOcorrenciaDto dto) {
         try {
@@ -43,6 +56,35 @@ public class SgoOcorrenciaService implements ISgoOcorrenciaService{
             //System.out.println(new Gson().toJson(sgoOcorrencia));
             sgoOcorrencia.setUserCreate("ADMIN");
 
+            // 🔗 LIGAR ESQUADRA PELO ORACLE_ID
+           if (dto.getIdEsquadra() != null) {
+                Esquadra esquadra = esquadraRepository
+                        .findByOracleId(dto.getIdEsquadra())
+                        .orElseThrow(() -> new RuntimeException(
+                                "Esquadra não encontrada para oracle_id = " + dto.getIdEsquadra()
+                        ));
+
+               sgoOcorrencia.setEsquadra(esquadra);
+
+
+            }
+
+
+            // Guardar apenas o ID do tipo de ocorrência (oracle)
+           /* if (dto.getIdTpOcorrencia() != null) {
+                sgoOcorrencia.setIdTpOcorrencia(dto.getIdTpOcorrencia());
+            }*/
+
+            // LIGAR TIPO OCORRENCIA PELO ORACLE_ID
+            if (dto.getIdTpOcorrencia() != null) {
+                SgoTpOcorrencia tp = sgoTpOcorrenciaRepository
+                        .findByOracleId(dto.getIdTpOcorrencia())
+                        .orElseThrow(() -> new RuntimeException(
+                                "Tipo Ocorrência não encontrado para oracle_id = " + dto.getIdTpOcorrencia()
+                        ));
+
+                sgoOcorrencia.setTipoOcorrencia(tp);
+            }
 
               sgoOcorrenciaRepository.save(sgoOcorrencia);
 
@@ -69,4 +111,28 @@ public class SgoOcorrenciaService implements ISgoOcorrenciaService{
                     .builder();
         }
     }
+
+    @Override
+    public Map<String, Object> consultarMotivo(String num) {
+
+
+        OcorrenciaMotivoProjection o =
+                sgoOcorrenciaRepository.buscarMotivo(num);
+
+        Map<String, Object> resp = new HashMap<>();
+
+        if (o == null) {
+            resp.put("status", false);
+            resp.put("mensagem", "Ocorrência não encontrada.");
+            return resp;
+        }
+
+        resp.put("status", true);
+        resp.put("numOcorrencia", o.getNumOcorrencia());
+        resp.put("motivo", o.getMotivo());
+
+        return resp;
+    }
+
+
 }
